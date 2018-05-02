@@ -50,7 +50,7 @@ $(document).ready(function () {
 
             i += parseInt($(this).data("price")) || 0;
         });
-        return i;
+        return i*1.1;
     }
 
     // data is an array
