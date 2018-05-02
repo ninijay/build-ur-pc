@@ -1,22 +1,23 @@
 $(document).ready(function () {
 
-    window.fakemainboard = [
-        {
-            "name": "SomeBoard",
-            "id": "1",
-            "price": 1
-        },
-        {
-            "name": "SomeBoard2",
-            "id": "2",
-            "price": 2
-        },
-        {
-            "name": "SomeBoard3",
-            "id": "3",
-            "price": 3
-        }
-    ];
+    window.mainboard = [];
+    window.cpu = [];
+    window.gpu = [];
+    window.ram = [];
+    window.cooling = [];
+    window.system = [];
+    $.get( "http://localhost:3000/pieces", function( data ) {
+        console.log(data );
+        data.forEach(element => {
+            if(element.type == "mainboard")
+            {
+                window.mainboard.push(element);
+            }
+        });
+        render();
+        attachDataToOption(window.mainboard, "mainboard");
+        attachDataToOption(window.fakeCPU, "CPU");
+      });
 
     window.fakeCPU = [
         {
@@ -142,9 +143,7 @@ $(document).ready(function () {
         $row.appendTo($main);
 
     }
-    render();
-    attachDataToOption(window.fakemainboard, "mainboard");
-    attachDataToOption(window.fakeCPU, "CPU");
+
 
 });
 
