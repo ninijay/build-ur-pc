@@ -1,45 +1,15 @@
 $(document).ready(function () {
 
-    window.mainboard = [];
-    window.cpu = [];
-    window.gpu = [];
-    window.ram = [];
-    window.cooling = [];
-    window.system = [];
-    $.get( "http://localhost:3000/pieces", function( data ) {
-        console.log(data );
-        data.forEach(element => {
-            if(element.type == "mainboard")
-            {
-                window.mainboard.push(element);
-            }
-        });
+    $.get("http://localhost:3000/pieces", function (data) {
+        console.log(data);
         render();
-        attachDataToOption(window.mainboard, "mainboard");
-        attachDataToOption(window.fakeCPU, "CPU");
-      });
-
-    window.fakeCPU = [
-        {
-            "name": "asd",
-            "id": "1",
-            "price": 1
-        },
-        {
-            "name": "sdfs",
-            "id": "2",
-            "price": 2
-        },
-        {
-            "name": "sdfsd",
-            "id": "3",
-            "price": 3
-        }
-    ];
+        data.forEach(element => {
+            attachDataToOption(element, element.type);
+        });
+    });
 
     function toTitleCase(str) {
-        if(str.toUpperCase() == str)
-        {
+        if (str.toUpperCase() == str) {
             return str;
         }
         return str.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
@@ -51,21 +21,19 @@ $(document).ready(function () {
 
             i += parseInt($(this).data("price")) || 0;
         });
-        return i*1.1;
+        return i * 1.1;
     }
 
     // data is an array
-    function attachDataToOption(data, id) {
+    function attachDataToOption(opt, id) {
         var listId = "#" + id + "List";
         var PriceId = "#" + id + "Price";
-        data.forEach(opt => {
-            var $opt = $("<option>",
-                {
-                    value: opt.id,
-                }).text(opt.name);
-            $opt.data("price", opt.price);
-            $opt.appendTo($(listId));
-        });
+        var $opt = $("<option>",
+            {
+                value: opt.id,
+            }).text(opt.name);
+        $opt.data("price", opt.price);
+        $opt.appendTo($(listId));
 
 
         $(listId).on("change", function () {
